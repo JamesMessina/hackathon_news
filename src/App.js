@@ -1,25 +1,47 @@
-import logo from './logo.svg';
+import React, { Component } from 'react'; 
+import axios from 'axios'; 
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+class StoryList extends Component{
+  constructor(props){
+    super(props)
 
-export default App;
+    this.state = {
+      isLoading: true, 
+      stories: [],
+      searchTerm: ""
+    }
+  }
+
+  componentDidMount(){
+    axios.get('http://hn.algolia.com/api/v1/search')
+    .then(res => {
+      const stories = res.data.hits
+      console.log(stories)
+      this.setState({isLoading: false, stories : stories})
+    })
+  }
+
+  handleChange = (e) =>{
+    this.setState({
+      [e.target.name] : e.target.value
+    })
+  }
+
+  
+  render(){
+    return (
+      <div className="App">
+      <header className="App-header">
+        <form>
+          <label>Search:</label>
+          <input name="searchTerm" type="text" placeholder="title, author, date..." value={this.state.searchTerm} onChange={(e) =>{this.handleChange(e)}}></input>
+        </form>
+      </header>
+      </div>
+    );
+  }
+} 
+
+export default StoryList;
