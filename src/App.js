@@ -37,7 +37,8 @@ class StoryList extends Component{
     this.setState({searchType: value})
   }
 
-  handleButtonClick = () =>{
+  handleButtonClick = (e) =>{
+    e.preventDefault(); 
     if(this.state.isClicked === false){
       this.setState({isClicked: true})
     }else{
@@ -66,26 +67,30 @@ class StoryList extends Component{
     return (
       <div className="App">
       <header className="App-header">
-        <form style = {{fontSize: "20px"}}>
+        <form onSubmit={(e) => {this.handleButtonClick(e)}} style = {{fontSize: "20px", display: "flex", flexDirection: "column"}}>
           <input name="searchTerm" placeholder="search by author or date" type="text" value={this.state.searchTerm} onChange={(e) =>{this.handleChange(e)}}/>
-          <input type="radio" id="author" checked={this.state.searchType === 'author'} onClick ={() => {this.handleClick('author')}}/>
-          <label for="author">Author</label>
-          <input type="radio" id="date" checked={this.state.searchType === 'date'} onClick ={() => {this.handleClick('date')}} />
-          <label for="date">Date</label>
+          <div>
+            <input type="radio" id="author" value="author" onClick ={(e) => {this.handleClick(e)}}/>
+            <label htmlFor="author">Author</label>
+          </div>  
+          <div>
+            <input type="radio" id="date" onClick ={(e) => {this.handleClick(e)}} />
+            <label htmlFor='date'>Date</label>
+          </div>
+          <button>List All Stories</button>
         </form>
-        <button onClick={this.handleButtonClick}>List All Stories</button>
         {this.state.isClicked ?
           <ListStories stories={this.state.stories}/> :
           <div></div>
         }
-        {
+        {/* {
           (this.state.searchTerm && this.state.searchType === 'date') ?
           <ListStories stories={this.state.stories.filter(this.filterSearchByDate(this.state.searchTerm))}/> :
           (this.state.searchTerm && this.state.searchType === 'author') ?
           <ListStories stories={this.state.stories.filter(this.filterSearchByAuthor(this.state.searchTerm))}/> :
           <div></div>
           
-        }
+        } */}
       </header>
       </div>
     );
