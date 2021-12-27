@@ -19,7 +19,7 @@ class StoryList extends Component{
   }
 
   componentDidMount(){
-    axios.get('http://hn.algolia.com/api/v1/search')
+    axios.get('https://hn.algolia.com/api/v1/search')
     .then(res => {
       const stories = res.data.hits
       console.log(stories)
