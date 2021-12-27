@@ -63,6 +63,12 @@ class StoryList extends Component{
     }
   }
 
+  clearStories = () => {
+    this.setState({searchTerm: ""}); 
+    this.setState({isClicked: false});
+    this.setState({selectedOption: ""})
+  }
+
   
   render(){
     return (
@@ -82,19 +88,17 @@ class StoryList extends Component{
               Date
             </label>
           </div>
-          <button>List/Clear All Stories</button>
+          <button>List Stories</button>
         </form>
-        {this.state.isClicked ?
-          <ListStories stories={this.state.stories}/> :
-          <div></div>
-        }
+        <button onClick={(e) => {this.clearStories(e)}}>Clear</button>
         {
-          (this.state.searchTerm && this.state.selectedOption === 'date') ?
-          <ListStories stories={this.state.stories.filter(this.filterSearchByDate(this.state.searchTerm))}/> :
-          (this.state.searchTerm && this.state.selectedOption === 'author') ?
-          <ListStories stories={this.state.stories.filter(this.filterSearchByAuthor(this.state.searchTerm))}/> :
+          (this.state.searchTerm && this.state.selectedOption === 'date' && this.state.isClicked) ?
+            <ListStories stories={this.state.stories.filter(this.filterSearchByDate(this.state.searchTerm))}/> :
+          (this.state.searchTerm && this.state.selectedOption === 'author' && this.state.isClicked) ?
+            <ListStories stories={this.state.stories.filter(this.filterSearchByAuthor(this.state.searchTerm))}/> :
+          (this.state.isClicked) ?
+            <ListStories stories={this.state.stories}/> :
           <div></div>
-          
         }
       </header>
       </div>
