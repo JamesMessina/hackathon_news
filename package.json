@@ -1,6 +1,5 @@
 {
   "name": "hackathon-news",
-  "homepage": "http://jamesmessina.github.io/hackathon_news/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
